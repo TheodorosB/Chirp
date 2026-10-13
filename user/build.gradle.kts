@@ -1,9 +1,7 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.jpa)
-    alias(libs.plugins.spring.boot)
-    alias(libs.plugins.spring.dependency.management)
-    alias(libs.plugins.kotlin.spring)
+    id("java-library")
+    id("chirp.spring-boot-service")
+    kotlin("plugin.jpa")
 }
 
 group = "com.tbonis"
@@ -14,6 +12,11 @@ repositories {
 }
 
 dependencies {
+    implementation(projects.common)
+
+    implementation(libs.spring.boot.starter.data.jpa)
+    runtimeOnly(libs.postgresql)
+
     testImplementation(kotlin("test"))
 }
 
