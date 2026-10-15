@@ -1,4 +1,4 @@
-package com.tbonis.chirp.domain.infra.database.entities
+package com.tbonis.chirp.infra.database.entities
 
 import com.tbonis.chirp.domain.model.UserId
 import jakarta.persistence.Column
@@ -8,10 +8,9 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Index
 import jakarta.persistence.Table
+import java.time.Instant
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
 @Entity
 @Table(
@@ -22,7 +21,7 @@ import kotlin.time.Instant
         Index(name = "idx_users_username", columnList = "username")
     ]
 )
-class UserEntity @OptIn(ExperimentalTime::class) constructor(
+class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     var id: UserId? = null,
@@ -31,11 +30,13 @@ class UserEntity @OptIn(ExperimentalTime::class) constructor(
     @Column(nullable = false, unique = true)
     var username: String,
     @Column(nullable = false)
-    var hashedPassword: String,
+    var hashedPassword: String?,
     @Column(nullable = false)
     var hasVerifiedEmail: Boolean = false,
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     var createdAt: Instant? = null,
     @UpdateTimestamp
+    @Column(nullable = false)
     var updatedAt: Instant? = null
 )
